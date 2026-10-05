@@ -194,8 +194,10 @@ function waw_pattern_review_variants( array $pattern, array $root ) {
 }
 
 /**
- * Remplace sur place (ou ajoute en fin) une classe dans une liste : l'ordre
- * reste celui que produit save(), sinon l'éditeur réécrirait le bloc.
+ * Remplace sur place (ou ajoute en fin) une classe dans une liste, sans
+ * doublon. L'ordre des classes n'a pas d'importance pour la validité (vérifié
+ * avec l'oracle G2, y compris en mode strict) ; garder la place d'origine rend
+ * seulement le balisage plus facile à comparer avec le fichier.
  *
  * @param string[] $classes   Classes.
  * @param callable $is_target Reconnaît la classe à remplacer.

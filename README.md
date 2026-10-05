@@ -64,12 +64,12 @@ Avec Polylang, la langue est celle de l'URL : `pll_home_url( 'en' )` suivi des p
 ## Fonctionnement
 
 - Les fichiers de composition sont inclus directement à chaque rendu, dans une portée isolée : le registre de WordPress garde le contenu de la première inclusion, dans la langue de ce moment-là.
-- Une déclinaison modifie les attributs du bloc racine et remplace sur place ses classes `is-style-*` et `align*` dans le balisage, pour garder l'ordre que produit `save()` : le bloc reste valide et n'est pas réécrit par l'éditeur.
+- Une déclinaison modifie les attributs du bloc racine et remplace sur place ses classes `is-style-*` et `align*` dans le balisage, sans doublon : le bloc reste valide.
 - La page de recette passe par le canevas des thèmes de blocs (`template-canvas.php`) : styles globaux, styles par bloc, en-tête et pied de page du thème sont ceux d'une vraie page.
 
 ## Limites connues
 
-- Le contrôle de validité ne connaît que les blocs du cœur : un bloc d'extension apparaît « à vérifier ». Il ne signale pas non plus un balisage valide que l'éditeur réécrirait à l'enregistrement (écart d'ordre de classes, attribut superflu) : pour ce contrôle strict, utiliser l'oracle G2 du plugin Claude `wearewp-fse`.
+- Le contrôle de validité ne connaît que les blocs du cœur : un bloc d'extension apparaît « à vérifier ». Il ne signale pas non plus un balisage valide que l'éditeur réécrirait à l'enregistrement (classe ou attribut superflu, par exemple) : pour ce contrôle strict, utiliser l'oracle G2 du plugin Claude `wearewp-fse`.
 - Seule la racine de la composition est déclinée : un style porté par un bloc intérieur (une couverture dans une colonne) n'est pas parcouru.
 
 ## Développement

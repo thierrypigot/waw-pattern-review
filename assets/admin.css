@@ -1,0 +1,226 @@
+/* Écran Apparence > Recette. Classes préfixées waw-pr, aucune règle globale. */
+
+.waw-pr__layout {
+	display: grid;
+	grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
+	gap: 24px;
+	align-items: start;
+	margin-top: 16px;
+}
+
+@media (max-width: 960px) {
+	.waw-pr__layout {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* Liste des compositions */
+.waw-pr__list {
+	position: sticky;
+	top: 48px;
+	padding: 12px;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.waw-pr__list ul {
+	margin: 0;
+}
+
+.waw-pr__list li {
+	margin: 0;
+}
+
+.waw-pr__list a {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 2px 8px;
+	padding: 8px;
+	border-radius: 4px;
+	color: #1d2327;
+	text-decoration: none;
+}
+
+.waw-pr__list a:hover {
+	background: #f6f7f7;
+}
+
+.waw-pr__list a:focus-visible {
+	outline: 2px solid var(--wp-admin-theme-color, #2271b1);
+	outline-offset: 1px;
+	box-shadow: none;
+}
+
+.waw-pr__list a[aria-current="page"] {
+	background: #f0f6fc;
+	box-shadow: inset 3px 0 0 var(--wp-admin-theme-color, #2271b1);
+}
+
+.waw-pr__name {
+	font-weight: 600;
+}
+
+.waw-pr__count {
+	grid-column: 1;
+	color: #50575e;
+	font-size: 12px;
+}
+
+.waw-pr__list .waw-pr__status {
+	grid-column: 2;
+	grid-row: 1 / span 2;
+	align-self: center;
+}
+
+.waw-pr__summary {
+	margin: 0;
+	color: #50575e;
+}
+
+/* Pastilles d'état : texte + couleur, jamais la couleur seule */
+.waw-pr__status:empty {
+	display: none;
+}
+
+.waw-pr__status {
+	display: inline-block;
+	padding: 1px 8px;
+	border-radius: 999px;
+	font-size: 12px;
+	line-height: 1.6;
+	white-space: nowrap;
+}
+
+.waw-pr__status.is-ok {
+	background: #edfaef;
+	color: #005c12;
+}
+
+.waw-pr__status.is-warning {
+	background: #fcf9e8;
+	color: #614200;
+}
+
+.waw-pr__status.is-error {
+	background: #fcf0f1;
+	color: #8a2424;
+}
+
+/* Barre d'outils */
+/* Barre unique : titre, réglages, échelle ; collée en haut au défilement */
+.waw-pr__toolbar {
+	position: sticky;
+	z-index: 2;
+	top: 32px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 16px;
+	align-items: center;
+	padding: 8px 12px;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #fff;
+}
+
+@media (max-width: 782px) {
+	.waw-pr__toolbar {
+		top: 46px;
+	}
+}
+
+.waw-pr__toolbar h2 {
+	flex: 1 1 auto;
+	margin: 0;
+	font-size: 14px;
+}
+
+.waw-pr__toolbar h2 code {
+	font-size: 12px;
+	font-weight: 400;
+}
+
+.waw-pr__toolbar select {
+	min-height: 32px;
+}
+
+/* Pictogrammes Bureau / Tablette / Mobile, comme l'aperçu de l'éditeur */
+.waw-pr__devices {
+	display: inline-flex;
+	gap: 2px;
+	padding: 2px;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+}
+
+.waw-pr__devices .components-button.has-icon {
+	color: #1e1e1e;
+}
+
+.waw-pr__devices .components-button.has-icon[aria-pressed="true"] {
+	background: #1e1e1e;
+	color: #fff;
+}
+
+/* Contrôle de validité : une ligne, détail repliable */
+.waw-pr__checks {
+	margin-top: 8px;
+}
+
+.waw-pr__checks summary {
+	cursor: pointer;
+	font-weight: 600;
+}
+
+.waw-pr__checks summary .waw-pr__status {
+	margin-inline-start: 4px;
+	font-weight: 400;
+}
+
+.waw-pr__checks ol {
+	margin: 6px 0 0 2em;
+	columns: 2 24rem;
+	column-gap: 24px;
+}
+
+.waw-pr__checks li {
+	margin-bottom: 2px;
+	break-inside: avoid;
+}
+
+.waw-pr__checks li p {
+	margin: 2px 0 0;
+	color: #8a2424;
+	font-size: 12px;
+	overflow-wrap: anywhere;
+}
+
+/* Aperçus */
+.waw-pr__frames {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 16px;
+	align-items: start;
+	margin-top: 12px;
+}
+
+.waw-pr__frame {
+	margin: 0;
+	min-width: 0;
+}
+
+.waw-pr__viewport {
+	position: relative;
+	margin-inline: auto;
+	overflow: hidden;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.waw-pr__viewport iframe {
+	display: block;
+	height: 600px;
+	border: 0;
+	transform-origin: 0 0;
+}

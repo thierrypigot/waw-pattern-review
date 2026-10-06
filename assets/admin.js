@@ -8,8 +8,9 @@
  *
  * Validité : le balisage de chaque déclinaison passe par wp.blocks.parse(),
  * c'est-à-dire le code de l'éditeur de la version de WordPress installée,
- * blocs du cœur enregistrés. Un bloc invalide est un bloc que l'éditeur
- * signalerait « Bloc invalide » à l'ouverture.
+ * blocs du cœur enregistrés, ainsi que les blocs dynamiques des extensions
+ * et du thème, déclarés depuis leur définition serveur. Un bloc invalide est
+ * un bloc que l'éditeur signalerait « Bloc invalide » à l'ouverture.
  *
  * Sans compilation : JavaScript moderne et globales wp.* déclarées en
  * dépendances (admin.php).
@@ -138,8 +139,30 @@
 	const ensureCoreBlocks = () => {
 		if ( ! coreBlocksReady ) {
 			blockLibrary.registerCoreBlocks();
+			registerServerBlocks();
 			coreBlocksReady = true;
 		}
+	};
+
+	// Blocs dynamiques hors cœur (admin.php, waw_pattern_review_server_blocks()) :
+	// rendus par le serveur, leur save() se réduit aux éventuels blocs internes.
+	const registerServerBlocks = () => {
+		const { createElement } = wp.element;
+		const { InnerBlocks } = wp.blockEditor;
+		( config.serverBlocks || [] ).forEach( ( definition ) => {
+			if ( ! definition?.name || blocks.getBlockType( definition.name ) ) {
+				return;
+			}
+			blocks.registerBlockType( definition.name, {
+				apiVersion: 3,
+				title: definition.title || definition.name,
+				category: 'widgets',
+				attributes: definition.attributes || {},
+				supports: definition.supports || {},
+				edit: () => null,
+				save: () => createElement( InnerBlocks.Content ),
+			} );
+		} );
 	};
 
 	// Message d'une anomalie de validation (format printf de l'éditeur).

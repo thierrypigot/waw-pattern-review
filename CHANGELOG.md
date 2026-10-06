@@ -6,6 +6,10 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), num
 
 ## [Non publié]
 
+### Corrigé
+
+- Validité des blocs : les blocs dynamiques des extensions et du thème (rendus par le serveur) ne sont plus signalés « Bloc non disponible ici ». Ils sont déclarés depuis leur définition serveur (attributs, supports), comme dans l'éditeur, et contrôlés. Les blocs statiques d'extension restent signalés.
+
 ### Modifié
 
 - Les compositions sont classées par titre traduit (sans tenir compte des accents ni de la casse) et non plus par nom, dans la liste de l'écran de recette comme dans l'API REST.

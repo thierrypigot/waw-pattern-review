@@ -169,7 +169,7 @@ function waw_pattern_review_assets() {
 	wp_enqueue_script(
 		'waw-pattern-review',
 		$base . 'admin.js',
-		array( 'wp-api-fetch', 'wp-i18n', 'wp-blocks', 'wp-block-editor', 'wp-block-library', 'wp-dom-ready' ),
+		array( 'wp-api-fetch', 'wp-i18n', 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-block-library', 'wp-dom-ready' ),
 		(string) filemtime( $dir . 'admin.js' ),
 		true
 	);
@@ -180,13 +180,43 @@ function waw_pattern_review_assets() {
 			array(
 				'current' => $current,
 				'urls'    => $urls,
-				'tabUrl'  => waw_pattern_review_tab_url( $current ),
-				'devices' => $devices,
+				'tabUrl'       => waw_pattern_review_tab_url( $current ),
+				'devices'      => $devices,
+				'serverBlocks' => waw_pattern_review_server_blocks(),
 			),
 			JSON_HEX_TAG | JSON_UNESCAPED_SLASHES
 		) . ';',
 		'before'
 	);
+}
+
+/**
+ * Blocs dynamiques des extensions et du thème (hors cœur), pour le contrôle
+ * de validité.
+ *
+ * L'écran de recette n'enregistre que les blocs du cœur : sans cela, le bloc
+ * dynamique d'une extension (rendu par le serveur, balisage réduit à un
+ * commentaire et à ses éventuels blocs internes) serait signalé « non
+ * disponible ». Sa définition serveur (attributs, supports) suffit à le
+ * déclarer côté navigateur, comme le fait l'éditeur. Les blocs statiques
+ * des extensions restent signalés : leur save() n'est pas disponible ici.
+ *
+ * @return array<int, array{name: string, title: string, attributes: array, supports: array}>
+ */
+function waw_pattern_review_server_blocks() {
+	$blocks = array();
+	foreach ( WP_Block_Type_Registry::get_instance()->get_all_registered() as $name => $type ) {
+		if ( str_starts_with( $name, 'core/' ) || ! $type->is_dynamic() ) {
+			continue;
+		}
+		$blocks[] = array(
+			'name'       => $name,
+			'title'      => (string) ( $type->title ? $type->title : $name ),
+			'attributes' => (array) $type->attributes,
+			'supports'   => (array) $type->supports,
+		);
+	}
+	return $blocks;
 }
 
 /**

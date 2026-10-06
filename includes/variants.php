@@ -57,7 +57,17 @@ function waw_pattern_review_patterns() {
 		}
 	}
 
-	ksort( $patterns );
+	// Ordre de lecture : titre traduit, sans tenir compte des accents ni de la casse.
+	uasort(
+		$patterns,
+		static function ( $a, $b ) {
+			$order = strnatcasecmp(
+				remove_accents( waw_pattern_review_texts( $a )['title'] ),
+				remove_accents( waw_pattern_review_texts( $b )['title'] )
+			);
+			return 0 !== $order ? $order : strcmp( $a['slug'], $b['slug'] );
+		}
+	);
 
 	/**
 	 * Compositions recettées.

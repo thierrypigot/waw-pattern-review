@@ -6,6 +6,10 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), num
 
 ## [Non publié]
 
+### Modifié
+
+- Les compositions sont classées par titre traduit (sans tenir compte des accents ni de la casse) et non plus par nom, dans la liste de l'écran de recette comme dans l'API REST.
+
 ## [0.2.0] - 2026-10-06
 
 ### Ajouté

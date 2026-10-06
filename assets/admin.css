@@ -224,3 +224,84 @@
 	border: 0;
 	transform-origin: 0 0;
 }
+
+/* Vue « onglet » : aperçu plein fenêtre, barre flottante en bas */
+.waw-pr-tab {
+	--waw-pr-bar: 56px;
+	--waw-pr-gap: 16px;
+}
+
+/* Fixé aux bords : ignore le retrait de html.wp-toolbar. */
+.waw-pr-tab__stage {
+	position: fixed;
+	inset: 0 0 calc(var(--waw-pr-bar) + 2 * var(--waw-pr-gap));
+	display: flex;
+	justify-content: center;
+	background: #f0f0f1;
+}
+
+.waw-pr-tab__stage iframe {
+	display: block;
+	max-width: 100%;
+	height: 100%;
+	border: 0;
+	background: #fff;
+}
+
+.waw-pr-tab:not([data-view="desktop"]) .waw-pr-tab__stage iframe {
+	box-shadow: 0 0 0 1px #dcdcde;
+}
+
+.waw-pr-tab__bar.waw-pr__toolbar {
+	position: fixed;
+	z-index: 10;
+	top: auto;
+	bottom: var(--waw-pr-gap);
+	left: 50%;
+	flex-wrap: nowrap;
+	gap: 8px;
+	width: max-content;
+	max-width: calc(100vw - 2 * var(--waw-pr-gap));
+	box-sizing: border-box;
+	transform: translateX(-50%);
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.waw-pr-tab__controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 16px;
+	align-items: center;
+}
+
+.waw-pr-tab__controls h1 {
+	margin: 0;
+	padding: 0;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+.waw-pr-tab__controls h1 code {
+	font-size: 12px;
+	font-weight: 400;
+}
+
+.waw-pr-tab__controls select {
+	min-height: 32px;
+}
+
+.waw-pr-tab__toggle.components-button.has-icon {
+	flex: none;
+	color: #1e1e1e;
+}
+
+.waw-pr-tab__up,
+.waw-pr-tab.is-collapsed .waw-pr-tab__down,
+.waw-pr-tab.is-collapsed .waw-pr-tab__controls {
+	display: none;
+}
+
+.waw-pr-tab.is-collapsed .waw-pr-tab__up {
+	display: inline;
+}

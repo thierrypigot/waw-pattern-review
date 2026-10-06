@@ -8,7 +8,7 @@ Développée par [WeAre[WP]](https://www.wearewp.pro/).
 
 ## Fonctionnalités
 
-- **Écran Apparence > Recette** : liste des compositions et nombre de déclinaisons, aperçu en bureau (1 440 px), tablette (834 px) ou mobile (390 px), au choix par les pictogrammes de l'aperçu de l'éditeur, mis à l'échelle de l'écran ; choix de la langue (Polylang) ; en-tête et pied de page du thème affichables ou non ; ouverture dans un onglet.
+- **Écran Apparence > Recette** : liste des compositions et nombre de déclinaisons, aperçu en bureau (1 440 px), tablette (834 px) ou mobile (390 px), au choix par les pictogrammes de l'aperçu de l'éditeur, mis à l'échelle de l'écran ; choix de la langue (Polylang) ; en-tête et pied de page du thème affichables ou non ; ouverture dans un onglet, en plein fenêtre, avec les mêmes réglages dans une barre flottante.
 - **Page de recette virtuelle** : `/?waw_pattern_review=<composition>` rend toutes les déclinaisons dans le gabarit du thème (canevas des thèmes de blocs). Réservée aux personnes qui peuvent modifier l'apparence (`edit_theme_options`), jamais indexée, jamais en cache.
 - **Déclinaisons** : style de la racine × largeur de la racine (voir plus bas).
 - **Validité des blocs** : le balisage de chaque déclinaison passe par `wp.blocks.parse()`, avec les blocs du cœur de la version de WordPress installée. « invalide » signifie que l'éditeur afficherait « Bloc invalide » ; « à vérifier » signale un bloc non disponible sur l'écran (bloc d'une extension). Bouton « Tout valider » pour toutes les compositions.

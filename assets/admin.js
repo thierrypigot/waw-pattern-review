@@ -61,6 +61,16 @@
 		return url.toString();
 	};
 
+	// Vue « onglet » de l'écran, avec les réglages en cours.
+	const tabUrl = ( extra = {} ) => {
+		const url = new URL( config.tabUrl, window.location.origin );
+		url.searchParams.set( 'lang', state.lang );
+		url.searchParams.set( 'device', state.view );
+		url.searchParams.set( 'chrome', state.chrome ? '1' : '0' );
+		Object.entries( extra ).forEach( ( [ key, value ] ) => url.searchParams.set( key, value ) );
+		return url.toString();
+	};
+
 	let framesRoot;
 
 	const layout = () => {
@@ -101,10 +111,11 @@
 
 		const open = document.querySelector( '[data-control="open"]' );
 		if ( open ) {
-			const url = new URL( previewUrl() );
-			url.searchParams.delete( 'waw_pr_embed' );
-			open.href = url.toString();
+			open.href = tabUrl();
 		}
+		document.querySelectorAll( '.waw-pr__checks [data-variant]' ).forEach( ( link ) => {
+			link.href = tabUrl( { variant: link.dataset.variant } );
+		} );
 	};
 
 	window.addEventListener( 'message', ( event ) => {
@@ -201,7 +212,8 @@
 			status.textContent = LEVEL_TEXT[ result.level ];
 
 			const link = document.createElement( 'a' );
-			link.href = previewUrl( { waw_pr_variant: index + 1 } ).replace( /([?&])waw_pr_embed=1&?/, '$1' );
+			link.dataset.variant = String( index + 1 );
+			link.href = tabUrl( { variant: index + 1 } );
 			link.target = '_blank';
 			link.rel = 'noopener';
 			link.textContent = variant.label;

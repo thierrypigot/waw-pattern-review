@@ -10,7 +10,7 @@
  * Author URI:        https://www.wearewp.pro/
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Update URI:        false
+ * Update URI:        https://github.com/thierrypigot/waw-pattern-review/
  * Text Domain:       waw-pattern-review
  *
  * @package WAW\PatternReview
@@ -25,3 +25,16 @@ require_once __DIR__ . '/includes/variants.php';
 require_once __DIR__ . '/includes/front.php';
 require_once __DIR__ . '/includes/rest.php';
 require_once __DIR__ . '/includes/admin.php';
+
+// Mises à jour depuis les releases GitHub (ZIP joint à la release). Le
+// sous-module manque dans un clone sans --recurse-submodules : pas de mise à
+// jour, mais pas d'erreur fatale.
+if ( is_readable( __DIR__ . '/plugin-update-checker/plugin-update-checker.php' ) ) {
+	require_once __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
+
+	YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+		'https://github.com/thierrypigot/waw-pattern-review/',
+		__FILE__,
+		'waw-pattern-review'
+	)->getVcsApi()->enableReleaseAssets();
+}

@@ -10,6 +10,7 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), num
 
 ### Ajouté
 
+- Mises à jour depuis les releases GitHub (plugin-update-checker, en sous-module) : chaque étiquette `v*` publie une release avec le ZIP d'installation `waw-pattern-review.zip`. L'en-tête `Update URI` pointe vers le dépôt.
 - « Ouvrir dans un onglet » ouvre une vue plein fenêtre de l'écran de recette, sans menus ni barre d'administration : l'aperçu à la largeur choisie et une barre flottante qui reprend les réglages de l'écran (langue, en-tête et pied, bureau, tablette, mobile), avec le retour à la recette et un bouton pour la réduire. Les réglages suivent l'adresse de l'onglet. Les liens des déclinaisons dans « Validité des blocs » ouvrent la même vue.
 
 ## [0.1.0] - 2026-10-05

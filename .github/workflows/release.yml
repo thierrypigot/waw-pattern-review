@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Stage plugin folder
+        run: |
+          mkdir -p build-dist/waw-pattern-review
+          rsync -av --exclude-from='.distignore' \
+            --exclude='build-dist' --exclude='.git' \
+            ./ build-dist/waw-pattern-review/
+
+      - name: Create zip
+        run: |
+          cd build-dist
+          zip -r ../waw-pattern-review.zip waw-pattern-review
+
+      - name: Extract release notes from CHANGELOG.md
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          awk -v v="$VERSION" '
+            index($0, "## [" v "]") == 1 { found = 1; next }
+            found && /^## \[/ { exit }
+            found { print }
+          ' CHANGELOG.md | tr -d '\r' | sed -e '/./,$!d' > release-notes.md
+          if [ ! -s release-notes.md ]; then
+            echo "::warning::No section \"## [$VERSION]\" in CHANGELOG.md, release notes will only contain the generated part."
+          fi
+
+      - name: Attach zip to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: waw-pattern-review.zip
+          body_path: release-notes.md
+          generate_release_notes: true

@@ -19,6 +19,12 @@ Développée par [WeAre[WP]](https://www.wearewp.pro/).
 - PHP 8.1 ou supérieur
 - Facultatif : [WAW : sélecteur de styles](https://github.com/thierrypigot/waw-style-picker), version qui suit la 0.1.1 (« Par défaut » de composition), pour les styles par composition ; Polylang pour les langues
 
+## Installation
+
+Télécharger `waw-pattern-review.zip` dans la [dernière release](https://github.com/thierrypigot/waw-pattern-review/releases/latest) (rubrique **Assets**), puis l'envoyer par **Extensions › Ajouter › Téléverser une extension**. Ne pas utiliser l'archive du bouton « Code » : il lui manque la bibliothèque de mise à jour.
+
+Les mises à jour suivantes s'affichent ensuite dans **Extensions**, comme celles de wordpress.org : l'extension consulte les releases GitHub du dépôt ([plugin-update-checker](https://github.com/YahnisElsts/plugin-update-checker)).
+
 ## Déclinaisons
 
 | Axe | Valeurs par défaut |
@@ -74,6 +80,10 @@ Avec Polylang, la langue est celle de l'URL : `pll_home_url( 'en' )` suivi des p
 
 ## Développement
 
+Cloner avec `git clone --recurse-submodules` (plugin-update-checker est un sous-module).
+
+**Release** : version dans l'en-tête `Version:` et la constante `WAW_PATTERN_REVIEW_VERSION`, section `## [x.y.z] - date` dans `CHANGELOG.md`, commit, puis `git tag -a vx.y.z` et `git push origin main --follow-tags`. Le workflow `.github/workflows/release.yml` construit le ZIP (fichiers de `.distignore` exclus), crée la release et y reprend la section du CHANGELOG.
+
 Pas de compilation : `assets/admin.js` est du JavaScript moderne qui utilise les globales `wp.*` déclarées en dépendances. Les pictogrammes Bureau / Tablette / Mobile sont les tracés de `@wordpress/icons` (`desktop`, `tablet`, `mobile`), repris dans `waw_pattern_review_devices()` : aucun script du cœur ne les expose en global.
 
 | Fichier | Rôle |
@@ -85,6 +95,8 @@ Pas de compilation : `assets/admin.js` est du JavaScript moderne qui utilise les
 | `includes/admin.php` | Écran Apparence > Recette |
 | `assets/admin.js`, `assets/admin.css` | Aperçus et validation |
 | `assets/tab.js` | Vue plein fenêtre ouverte dans un onglet, barre flottante |
+| `plugin-update-checker/` | Sous-module : mises à jour depuis les releases GitHub |
+| `.github/workflows/release.yml` | Release à chaque étiquette `v*` |
 
 ## À faire
 

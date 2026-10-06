@@ -84,6 +84,11 @@ Pas de compilation : `assets/admin.js` est du JavaScript moderne qui utilise les
 | `includes/rest.php` | Route `waw-pattern-review/v1/variants` (balisage pour la validation) |
 | `includes/admin.php` | Écran Apparence > Recette |
 | `assets/admin.js`, `assets/admin.css` | Aperçus et validation |
+| `assets/tab.js` | Vue plein fenêtre ouverte dans un onglet, barre flottante |
+
+## À faire
+
+- **Barre latérale** : une case « Barre latérale » à côté de « En-tête et pied » (écran et barre flottante, reprise dans l'adresse de l'onglet), proposée seulement si le thème actif a une part de modèle `sidebar` (WordPress n'a pas de zone « barre latérale » standard). Rendu envisagé : déclinaisons en colonne principale, part `sidebar` à droite (environ 30 %) avec le bloc Colonnes du cœur, sous le contenu en mobile. À réaliser sur un projet qui a une vraie barre latérale, pour reprendre la mise en page de ses modèles plutôt qu'une approximation (le thème Solidarités n'en a pas).
 
 ## Licence
 

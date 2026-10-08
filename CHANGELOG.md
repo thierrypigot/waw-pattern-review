@@ -6,6 +6,8 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), num
 
 ## [Non publié]
 
+## [0.3.0] - 2026-10-08
+
 ### Modifié
 
 - Validité des blocs : les blocs statiques des extensions et du thème sont désormais contrôlés. L'écran charge leur script d'éditeur, précédé des définitions serveur de tous les blocs comme dans l'éditeur, et compare leur balisage à leur vrai save(). Seul un bloc sans script d'éditeur reste signalé « Bloc non disponible ici ».

@@ -213,8 +213,12 @@
 	const setBadge = ( slug, level ) => {
 		const badge = document.querySelector( `[data-status-for="${ CSS.escape( slug ) }"]` );
 		if ( badge ) {
-			badge.className = `waw-pr__status is-${ level }`;
-			badge.textContent = LEVEL_TEXT[ level ];
+			// L'état colore la pastille du nombre ; le libellé reste lu et survolable.
+			const pill = badge.closest( '.waw-pr__count' );
+			const label = pill.querySelector( '.screen-reader-text' ).textContent;
+			badge.textContent = `, ${ LEVEL_TEXT[ level ] }`;
+			pill.className = `waw-pr__count is-${ level }`;
+			pill.title = `${ label }, ${ LEVEL_TEXT[ level ] }`;
 		}
 	};
 

@@ -6,6 +6,11 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), num
 
 ## [Non publié]
 
+### Modifié
+
+- Validité des blocs : les blocs statiques des extensions et du thème sont désormais contrôlés. L'écran charge leur script d'éditeur, précédé des définitions serveur de tous les blocs comme dans l'éditeur, et compare leur balisage à leur vrai save(). Seul un bloc sans script d'éditeur reste signalé « Bloc non disponible ici ».
+- Liste des compositions : le nombre de déclinaisons s'affiche dans une pastille sur la ligne du nom. Après validation, la pastille prend la couleur de l'état (vert valide, jaune à vérifier, rouge invalide, avec un « ! »), et l'état reste lu par les lecteurs d'écran et affiché au survol.
+
 ## [0.2.1] - 2026-10-06
 
 ### Corrigé

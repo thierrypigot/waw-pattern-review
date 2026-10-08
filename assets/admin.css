@@ -33,10 +33,10 @@
 }
 
 .waw-pr__list a {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) auto;
-	gap: 2px 8px;
-	padding: 8px;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 8px;
 	border-radius: 4px;
 	color: #1d2327;
 	text-decoration: none;
@@ -58,19 +58,52 @@
 }
 
 .waw-pr__name {
+	flex: 1 1 auto;
+	min-width: 0;
 	font-weight: 600;
 }
 
+/* Nombre de déclinaisons : pastille sur la ligne du nom */
 .waw-pr__count {
-	grid-column: 1;
-	color: #50575e;
-	font-size: 12px;
+	min-width: 20px;
+	padding: 0 6px;
+	border-radius: 999px;
+	background: #f0f0f1;
+	color: #3c434a;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 18px;
+	text-align: center;
+	font-variant-numeric: tabular-nums;
+	box-sizing: border-box;
+	flex: none;
 }
 
-.waw-pr__list .waw-pr__status {
-	grid-column: 2;
-	grid-row: 1 / span 2;
-	align-self: center;
+.waw-pr__list a[aria-current="page"] .waw-pr__count:not([class*="is-"]) {
+	background: #dcdcde;
+}
+
+/* Après validation, la pastille prend la couleur de l'état */
+.waw-pr__count.is-ok {
+	background: #b8e6bf;
+	color: #00450c;
+}
+
+.waw-pr__count.is-warning {
+	background: #f5e6ab;
+	color: #4d3700;
+}
+
+.waw-pr__count.is-error {
+	background: #facfd2;
+	color: #691c1c;
+}
+
+/* Repère hors couleur ; texte alternatif vide, l'état est déjà lu */
+.waw-pr__count.is-error::after {
+	content: "!";
+	content: "!" / "";
+	margin-left: 2px;
 }
 
 .waw-pr__summary {

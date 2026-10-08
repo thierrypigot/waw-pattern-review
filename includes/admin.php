@@ -164,12 +164,24 @@ function waw_pattern_review_assets() {
 		return;
 	}
 
+	// Définitions serveur de tous les blocs, comme dans l'éditeur : les scripts
+	// d'extension enregistrent souvent leur bloc par son seul nom et comptent
+	// sur elles pour ses attributs et supports.
+	wp_add_inline_script(
+		'wp-blocks',
+		'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( get_block_editor_server_block_settings(), JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) . ');'
+	);
+
 	// wp-block-editor avant l'enregistrement des blocs : il ajoute les attributs
-	// et classes des supports (couleurs, espacements…) que save() produit.
+	// et classes des supports (couleurs, espacements…) que save() produit. Les
+	// scripts des blocs d'extension viennent après, pour la même raison.
 	wp_enqueue_script(
 		'waw-pattern-review',
 		$base . 'admin.js',
-		array( 'wp-api-fetch', 'wp-i18n', 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-block-library', 'wp-dom-ready' ),
+		array_merge(
+			array( 'wp-api-fetch', 'wp-i18n', 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-block-library', 'wp-dom-ready' ),
+			waw_pattern_review_block_editor_scripts()
+		),
 		(string) filemtime( $dir . 'admin.js' ),
 		true
 	);
@@ -191,15 +203,39 @@ function waw_pattern_review_assets() {
 }
 
 /**
+ * Scripts d'éditeur des blocs des extensions et du thème (hors cœur), pour le
+ * contrôle de validité.
+ *
+ * Ils enregistrent le vrai save() de chaque bloc : le balisage d'un bloc
+ * statique d'extension est alors comparé comme dans l'éditeur, au lieu d'être
+ * signalé « non disponible ». Seuls les scripts enregistrés sont retenus.
+ *
+ * @return string[] Handles de scripts.
+ */
+function waw_pattern_review_block_editor_scripts() {
+	$handles = array();
+	foreach ( WP_Block_Type_Registry::get_instance()->get_all_registered() as $name => $type ) {
+		if ( str_starts_with( $name, 'core/' ) ) {
+			continue;
+		}
+		foreach ( $type->editor_script_handles as $handle ) {
+			if ( wp_script_is( $handle, 'registered' ) ) {
+				$handles[] = $handle;
+			}
+		}
+	}
+	return array_values( array_unique( $handles ) );
+}
+
+/**
  * Blocs dynamiques des extensions et du thème (hors cœur), pour le contrôle
  * de validité.
  *
- * L'écran de recette n'enregistre que les blocs du cœur : sans cela, le bloc
- * dynamique d'une extension (rendu par le serveur, balisage réduit à un
- * commentaire et à ses éventuels blocs internes) serait signalé « non
- * disponible ». Sa définition serveur (attributs, supports) suffit à le
- * déclarer côté navigateur, comme le fait l'éditeur. Les blocs statiques
- * des extensions restent signalés : leur save() n'est pas disponible ici.
+ * Filet pour le bloc dynamique dont aucun script d'éditeur n'est chargé
+ * (voir waw_pattern_review_block_editor_scripts()) : rendu par le serveur,
+ * son balisage se réduit à un commentaire et à ses éventuels blocs internes,
+ * et sa définition serveur (attributs, supports) suffit à le déclarer côté
+ * navigateur. Un bloc déjà enregistré par son script n'est pas redéclaré.
  *
  * @return array<int, array{name: string, title: string, attributes: array, supports: array}>
  */
@@ -252,13 +288,15 @@ function waw_pattern_review_screen() {
 						<li>
 							<a href="<?php echo esc_url( $url ); ?>"<?php echo $slug === $current ? ' aria-current="page"' : ''; ?>>
 								<span class="waw-pr__name"><?php echo esc_html( waw_pattern_review_texts( $pattern )['title'] ); ?></span>
-								<span class="waw-pr__count">
-									<?php
-									/* translators: %d: nombre de déclinaisons. */
-									echo esc_html( sprintf( _n( '%d déclinaison', '%d déclinaisons', $count, 'waw-pattern-review' ), $count ) );
-									?>
+								<?php
+								/* translators: %d: nombre de déclinaisons. */
+								$count_label = sprintf( _n( '%d déclinaison', '%d déclinaisons', $count, 'waw-pattern-review' ), $count );
+								?>
+								<span class="waw-pr__count" title="<?php echo esc_attr( $count_label ); ?>">
+									<span aria-hidden="true"><?php echo esc_html( number_format_i18n( $count ) ); ?></span>
+									<span class="screen-reader-text"><?php echo esc_html( $count_label ); ?></span>
+									<span class="screen-reader-text" data-status-for="<?php echo esc_attr( $slug ); ?>"></span>
 								</span>
-								<span class="waw-pr__status" data-status-for="<?php echo esc_attr( $slug ); ?>"></span>
 							</a>
 						</li>
 					<?php endforeach; ?>
